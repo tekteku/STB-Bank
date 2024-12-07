@@ -1,0 +1,59 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/accueil"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Transfert</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="transfer-container">
+    <ion-card class="amount-card">
+      <ion-card-content>
+        <div class="amount-input">
+          <span class="currency">€</span>
+          <input type="number" [(ngModel)]="amount" placeholder="0.00">
+        </div>
+        <p class="balance-text">Solde disponible: €10,000.00</p>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="transfer-form">
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked">Bénéficiaire</ion-label>
+          <ion-select [(ngModel)]="selectedBeneficiary" interface="action-sheet">
+            <ion-select-option *ngFor="let ben of beneficiaries" [value]="ben.id">
+              {{ben.name}} - {{ben.accountNumber}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Motif du transfert</ion-label>
+          <ion-input type="text" [(ngModel)]="transferReason"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Message (optionnel)</ion-label>
+          <ion-textarea [(ngModel)]="message" rows="3"></ion-textarea>
+        </ion-item>
+      </ion-list>
+
+      <div class="quick-amounts">
+        <ion-chip *ngFor="let amount of quickAmounts" (click)="selectAmount(amount)">
+          €{{amount}}
+        </ion-chip>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-button expand="block" (click)="confirmTransfer()" [disabled]="!isValidTransfer()">
+      Confirmer le transfert
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

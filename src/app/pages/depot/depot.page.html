@@ -1,0 +1,99 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/accueil"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Dépôt</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="deposit-container">
+    <ion-card class="amount-card">
+      <ion-card-content>
+        <div class="amount-input">
+          <span class="currency">€</span>
+          <input type="number" [(ngModel)]="amount" placeholder="0.00">
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="deposit-options">
+      <h3>Méthode de dépôt</h3>
+      <ion-segment [(ngModel)]="depositMethod" mode="ios">
+        <ion-segment-button value="card">
+          <ion-icon name="card"></ion-icon>
+          <ion-label>Carte</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="transfer">
+          <ion-icon name="swap-horizontal"></ion-icon>
+          <ion-label>Virement</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="cash">
+          <ion-icon name="cash"></ion-icon>
+          <ion-label>Espèces</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+
+      <div class="method-details" [ngSwitch]="depositMethod">
+        <div *ngSwitchCase="'card'" class="card-input">
+          <ion-list>
+            <ion-item>
+              <ion-label position="stacked">Numéro de carte</ion-label>
+              <ion-input type="text" [(ngModel)]="cardNumber" placeholder="XXXX XXXX XXXX XXXX"></ion-input>
+            </ion-item>
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked">Date d'expiration</ion-label>
+                  <ion-input type="text" [(ngModel)]="expiryDate" placeholder="MM/YY"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item>
+                  <ion-label position="stacked">CVV</ion-label>
+                  <ion-input type="number" [(ngModel)]="cvv" placeholder="123"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-list>
+        </div>
+
+        <div *ngSwitchCase="'transfer'" class="transfer-info">
+          <ion-card>
+            <ion-card-content>
+              <h4>Informations bancaires STB</h4>
+              <p><strong>IBAN:</strong> FR76 3000 1007 1234 5678 9012 345</p>
+              <p><strong>BIC:</strong> STBFRPPXXX</p>
+              <ion-button fill="clear" (click)="copyBankDetails()">
+                <ion-icon name="copy-outline" slot="start"></ion-icon>
+                Copier les informations
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <div *ngSwitchCase="'cash'" class="cash-info">
+          <ion-card>
+            <ion-card-content>
+              <h4>Dépôt en espèces</h4>
+              <p>Rendez-vous dans l'une de nos agences STB:</p>
+              <ion-button expand="block" (click)="showBranches()">
+                <ion-icon name="location-outline" slot="start"></ion-icon>
+                Trouver une agence
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border" *ngIf="depositMethod === 'card'">
+  <ion-toolbar>
+    <ion-button expand="block" (click)="processDeposit()" [disabled]="!isValidDeposit()">
+      Effectuer le dépôt
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

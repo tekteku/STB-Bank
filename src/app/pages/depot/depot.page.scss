@@ -1,0 +1,125 @@
+.deposit-container {
+    padding: 16px;
+  }
+  
+  .amount-card {
+    background: var(--ion-color-light);
+    border-radius: 16px;
+    margin-bottom: 24px;
+  
+    .amount-input {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 0;
+  
+      .currency {
+        font-size: 2.5rem;
+        color: var(--ion-color-dark);
+        margin-right: 8px;
+      }
+  
+      input {
+        font-size: 2.5rem;
+        border: none;
+        background: transparent;
+        text-align: center;
+        width: 200px;
+        color: var(--ion-color-dark);
+        outline: none;
+  
+        &::placeholder {
+          color: var(--ion-color-medium);
+        }
+      }
+    }
+  }
+  
+  .deposit-options {
+    h3 {
+      margin: 0 0 16px;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--ion-color-dark);
+    }
+  
+    ion-segment {
+      margin-bottom: 24px;
+      --background: var(--ion-color-light);
+      border-radius: 8px;
+  
+      ion-segment-button {
+        --padding-top: 8px;
+        --padding-bottom: 8px;
+        
+        ion-icon {
+          font-size: 1.4rem;
+          margin-bottom: 4px;
+        }
+        
+        ion-label {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+  
+  .method-details {
+    .card-input {
+      ion-list {
+        background: transparent;
+        padding: 0;
+  
+        ion-item {
+          --padding-start: 0;
+          --background: transparent;
+          --border-color: var(--ion-color-light);
+          margin-bottom: 16px;
+  
+          ion-label {
+            color: var(--ion-color-medium);
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+  
+    .transfer-info, .cash-info {
+      ion-card {
+        margin: 0;
+        
+        h4 {
+          margin: 0 0 16px;
+          font-size: 1.1rem;
+          font-weight: 500;
+        }
+        
+        p {
+          margin: 8px 0;
+          color: var(--ion-color-medium);
+        }
+      }
+    }
+  }
+  
+  ion-footer {
+    padding: 16px;
+    
+    ion-button {
+      margin: 0;
+      height: 48px;
+      --border-radius: 24px;
+      font-weight: 600;
+    }
+  }
+
+ion-card-header {
+  background: var(--ion-color-success-header);
+  
+  ion-card-title {
+    color: var(--header-text-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}

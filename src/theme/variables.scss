@@ -1,0 +1,63 @@
+:root {
+  // Main Brand Colors
+  --stb-primary: #003B95;
+  --stb-secondary: #0066CC;
+  --stb-accent: #FFB800;
+  
+  // Operation Colors
+  --operation-deposit: #00A389;
+  --operation-withdraw: #FF6B00;
+  --operation-transfer: #4D61FC;
+  --operation-history: #6E2FD5;
+  
+  // Gradients
+  --gradient-deposit: linear-gradient(135deg, #00A389, #008F77);
+  --gradient-withdraw: linear-gradient(135deg, #FF6B00, #FF4D00);
+  --gradient-transfer: linear-gradient(135deg, #4D61FC, #3F51B5);
+  --gradient-history: linear-gradient(135deg, #6E2FD5, #5B24B3);
+  
+  // Status Colors
+  --status-success: #00C853;
+  --status-warning: #FFB800;
+  --status-error: #FF3B30;
+  --status-info: #0066CC;
+  
+  // Surface Colors
+  --color-surface-100: #ffffff;
+  --color-surface-200: #f5f5f5;
+  --color-surface-300: #e0e0e0;
+  
+  // Text Colors
+  --color-text-primary: #212121;
+  --color-text-secondary: #757575;
+  
+  // Neutral Colors
+  --neutral-100: #FFFFFF;
+  --neutral-200: #F8F9FA;
+  --neutral-300: #E9ECEF;
+  --neutral-400: #DEE2E6;
+  --neutral-500: #ADB5BD;
+  --neutral-600: #6C757D;
+  --neutral-700: #495057;
+  --neutral-800: #343A40;
+  --neutral-900: #212529;
+  
+  // UI Variables
+  --hover-transform: translateY(-3px);
+  --transition-speed: 0.3s;
+  --border-radius-lg: 15px;
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+// Add Ionic specific variables
+:root {
+  /** primary **/
+  --ion-color-primary: var(--stb-primary);
+  --ion-color-primary-rgb: 0, 59, 149;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #003483;
+  --ion-color-primary-tint: #1a4fa0;
+  
+  // ...other Ionic color variables...
+}

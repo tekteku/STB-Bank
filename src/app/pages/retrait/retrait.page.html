@@ -1,0 +1,72 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/accueil"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Retrait</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="withdrawal-container">
+    <ion-card class="balance-info">
+      <ion-card-content>
+        <p class="label">Solde disponible</p>
+        <h2 class="amount">€10,000.00</h2>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="amount-section">
+      <h3>Montant du retrait</h3>
+      <div class="amount-input-container">
+        <span class="currency">€</span>
+        <input type="number" [(ngModel)]="amount" placeholder="0.00" class="amount-input">
+      </div>
+
+      <div class="quick-amounts">
+        <ion-chip *ngFor="let quickAmount of quickAmounts" (click)="selectAmount(quickAmount)">
+          €{{quickAmount}}
+        </ion-chip>
+      </div>
+    </div>
+
+    <div class="withdrawal-method">
+      <h3>Méthode de retrait</h3>
+      <ion-list>
+        <ion-radio-group [(ngModel)]="selectedMethod">
+          <ion-item>
+            <ion-label>
+              <h4>Retrait DAB</h4>
+              <p>Générer un code pour retrait sans carte</p>
+            </ion-label>
+            <ion-radio slot="start" value="atm"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>
+              <h4>En agence</h4>
+              <p>Retrait au guichet STB</p>
+            </ion-label>
+            <ion-radio slot="start" value="branch"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>
+              <h4>Livraison à domicile</h4>
+              <p>Service premium de livraison d'espèces</p>
+            </ion-label>
+            <ion-radio slot="start" value="delivery"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-button expand="block" (click)="confirmWithdrawal()" [disabled]="!isValidWithdrawal()">
+      Confirmer le retrait
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,54 @@
+@import './variables';
+
+:root {
+  // Design Tokens
+  --space-unit: 8px;
+  --border-radius-sm: 8px;
+  --border-radius-md: 16px;
+  --border-radius-lg: 24px;
+  
+  // Typography
+  --font-family: system-ui, -apple-system, sans-serif;
+  --font-scale: 1.25;
+  --font-size-base: 16px;
+  
+  // Light Theme Colors
+  --color-primary-100: #E3F2FD;
+  --color-primary-500: #2196F3;
+  --color-primary-900: #0D47A1;
+  --color-surface-100: #FFFFFF;
+  --color-surface-200: #F8F9FA;
+  --color-surface-300: #E9ECEF;
+  
+  // Elevation
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+  
+  // Animation
+  --transition-fast: 200ms ease;
+  --transition-normal: 300ms ease;
+}
+
+// Dark Theme
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary-100: #0D47A1;
+    --color-primary-500: #2196F3;
+    --color-primary-900: #E3F2FD;
+    --color-surface-100: #121212;
+    --color-surface-200: #282828;
+    --color-surface-300: #404040;
+    
+    // Override card shadows for dark mode
+    --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

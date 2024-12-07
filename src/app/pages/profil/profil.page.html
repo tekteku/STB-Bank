@@ -1,0 +1,102 @@
+<ion-content>
+<div class="ion-padding">
+  <!-- Informations bancaires -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="card-outline"></ion-icon>
+        Informations bancaires
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label>
+            <p>Numéro de compte</p>
+            <h3>{{userProfile.accountNumber}}</h3>
+          </ion-label>
+          <ion-button fill="clear" slot="end" (click)="copyToClipboard(userProfile.accountNumber)">
+            <ion-icon name="copy-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>IBAN</p>
+            <h3>{{userProfile.iban}}</h3>
+          </ion-label>
+          <ion-button fill="clear" slot="end" (click)="copyToClipboard(userProfile.iban)">
+            <ion-icon name="copy-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Sécurité -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="shield-outline"></ion-icon>
+        Sécurité
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list lines="none">
+        <ion-item button (click)="changePassword()">
+          <ion-label>
+            <h3>Changer le mot de passe</h3>
+          </ion-label>
+          <ion-icon name="chevron-forward" slot="end"></ion-icon>
+        </ion-item>
+        <ion-item button (click)="manageTwoFactor()">
+          <ion-label>
+            <h3>Double authentification</h3>
+            <p>{{userProfile.twoFactorEnabled ? 'Activée' : 'Désactivée'}}</p>
+          </ion-label>
+          <ion-icon name="chevron-forward" slot="end"></ion-icon>
+        </ion-item>
+        <ion-item button (click)="deviceManagement()">
+          <ion-label>
+            <h3>Appareils connectés</h3>
+          </ion-label>
+          <ion-icon name="chevron-forward" slot="end"></ion-icon>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Préférences -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="settings-outline"></ion-icon>
+        Préférences
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label>Notifications push</ion-label>
+          <ion-toggle [(ngModel)]="userProfile.pushNotifications"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label>Notifications email</ion-label>
+          <ion-toggle [(ngModel)]="userProfile.emailNotifications"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label>Mode sombre</ion-label>
+          <ion-toggle [(ngModel)]="darkMode" (ionChange)="toggleDarkMode()"></ion-toggle>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-button expand="block" color="danger" (click)="logout()">
+      Se déconnecter
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
