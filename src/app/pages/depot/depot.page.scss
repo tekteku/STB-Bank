@@ -1,125 +1,273 @@
-.deposit-container {
-    padding: 16px;
-  }
-  
-  .amount-card {
-    background: var(--ion-color-light);
-    border-radius: 16px;
-    margin-bottom: 24px;
-  
-    .amount-input {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 0;
-  
-      .currency {
-        font-size: 2.5rem;
-        color: var(--ion-color-dark);
-        margin-right: 8px;
-      }
-  
-      input {
-        font-size: 2.5rem;
-        border: none;
-        background: transparent;
-        text-align: center;
-        width: 200px;
-        color: var(--ion-color-dark);
-        outline: none;
-  
-        &::placeholder {
-          color: var(--ion-color-medium);
-        }
-      }
-    }
-  }
-  
-  .deposit-options {
-    h3 {
-      margin: 0 0 16px;
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: var(--ion-color-dark);
-    }
-  
-    ion-segment {
-      margin-bottom: 24px;
-      --background: var(--ion-color-light);
-      border-radius: 8px;
-  
-      ion-segment-button {
-        --padding-top: 8px;
-        --padding-bottom: 8px;
-        
-        ion-icon {
-          font-size: 1.4rem;
-          margin-bottom: 4px;
-        }
-        
-        ion-label {
-          font-size: 0.9rem;
-        }
-      }
-    }
-  }
-  
-  .method-details {
-    .card-input {
-      ion-list {
-        background: transparent;
-        padding: 0;
-  
-        ion-item {
-          --padding-start: 0;
-          --background: transparent;
-          --border-color: var(--ion-color-light);
-          margin-bottom: 16px;
-  
-          ion-label {
-            color: var(--ion-color-medium);
-            font-size: 0.9rem;
-          }
-        }
-      }
-    }
-  
-    .transfer-info, .cash-info {
-      ion-card {
-        margin: 0;
-        
-        h4 {
-          margin: 0 0 16px;
-          font-size: 1.1rem;
-          font-weight: 500;
-        }
-        
-        p {
-          margin: 8px 0;
-          color: var(--ion-color-medium);
-        }
-      }
-    }
-  }
-  
-  ion-footer {
-    padding: 16px;
+:host {
+  --page-padding: 16px;
+  --card-border-radius: 16px;
+  --input-border-radius: 8px;
+}
+
+ion-header {
+  ion-toolbar {
+    --background: transparent;
     
-    ion-button {
-      margin: 0;
-      height: 48px;
-      --border-radius: 24px;
+    ion-title {
+      font-size: 20px;
       font-weight: 600;
     }
   }
+}
 
-ion-card-header {
-  background: var(--ion-color-success-header);
-  
-  ion-card-title {
-    color: var(--header-text-color);
+ion-content {
+  --background: var(--ion-color-light);
+  background-image: 
+    radial-gradient(circle at 0% 0%, rgba(var(--ion-color-primary-rgb), 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 100% 100%, rgba(var(--ion-color-primary-rgb), 0.1) 0%, transparent 50%);
+}
+
+.deposit-container {
+  padding: var(--page-padding);
+}
+
+// Amount Card Styling
+.amount-card {
+  background: var(--ion-color-primary);
+  border-radius: var(--card-border-radius);
+  margin: 0 0 24px;
+  box-shadow: 0 8px 20px rgba(var(--ion-color-primary-rgb), 0.2);
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+  }
+
+  ion-card-content {
+    padding: 24px;
+    position: relative;
+  }
+
+  .amount-wrapper {
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    margin-bottom: 8px;
+
+    .currency-symbol {
+      font-size: 24px;
+      color: white;
+      margin-right: 8px;
+    }
+
+    .amount-input {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 36px;
+      font-weight: 700;
+      text-align: center;
+      width: 200px;
+      outline: none;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+  }
+
+  .helper-text {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+// Method Selector Styling
+.method-selector {
+  margin-bottom: 24px;
+
+  h2 {
+    margin: 0 0 16px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+  }
+
+  ion-segment {
+    --background: var(--ion-color-light-shade);
+    border-radius: var(--input-border-radius);
+    padding: 4px;
+
+    ion-segment-button {
+      --background-checked: var(--ion-color-primary);
+      --color-checked: white;
+      --indicator-color: transparent;
+      min-height: 60px;
+      --border-radius: var(--input-border-radius);
+      transition: all 0.3s ease;
+
+      &::part(indicator) {
+        display: none;
+      }
+
+      ion-icon {
+        font-size: 24px;
+        margin-bottom: 4px;
+      }
+
+      ion-label {
+        font-size: 14px;
+        margin-top: 4px;
+      }
+
+      &.segment-button-checked {
+        transform: scale(1.02);
+      }
+    }
+  }
+}
+
+// Method Content Styling
+.method-content {
+  animation: fadeIn 0.3s ease-out;
+
+  .card-form {
+    ion-list {
+      background: transparent;
+      padding: 0;
+
+      ion-item {
+        --background: var(--ion-color-light-shade);
+        --border-radius: var(--input-border-radius);
+        --padding-start: 16px;
+        --highlight-height: 0;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        ion-label {
+          color: var(--ion-color-medium);
+        }
+
+        ion-input {
+          --padding-start: 8px;
+          font-size: 16px;
+        }
+      }
+    }
+
+    .card-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+  }
+
+  .bank-info-card {
+    background: var(--ion-color-light-shade);
+    border-radius: var(--card-border-radius);
+    padding: 20px;
+    margin-bottom: 16px;
+
+    h3 {
+      margin: 0 0 16px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ion-color-dark);
+    }
+
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+
+      label {
+        color: var(--ion-color-medium);
+        font-size: 14px;
+      }
+
+      .value {
+        font-weight: 500;
+        color: var(--ion-color-dark);
+      }
+    }
+
+    ion-button {
+      margin-top: 16px;
+    }
+  }
+}
+
+// Footer Styling
+ion-footer {
+  ion-toolbar {
+    --background: transparent;
+    --border-width: 0;
+    padding: 16px;
+
+    ion-button {
+      margin: 0;
+      --border-radius: 12px;
+      height: 48px;
+      font-weight: 600;
+      --box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.2);
+
+      &[disabled] {
+        --background: var(--ion-color-medium);
+        --opacity: 0.7;
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+  ion-content {
+    --background: var(--ion-color-dark);
+  }
+
+  .method-selector ion-segment {
+    --background: rgba(var(--ion-color-light-rgb), 0.05);
+  }
+
+  .method-content .card-form ion-item,
+  .bank-info-card {
+    --background: rgba(var(--ion-color-light-rgb), 0.05);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .card-details {
+    grid-template-columns: 1fr !important;
+  }
+
+  .amount-card .amount-wrapper .amount-input {
+    font-size: 32px;
   }
 }

@@ -1,7 +1,36 @@
 import { Component } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonBackButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonSegment,
+  IonSegmentButton,
+  IonLabel,
+  IonIcon,
+  IonList,
+  IonItem,
+  IonInput,
+  IonButton,
+  IonFooter,
+  IonText
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { 
+  cardOutline, 
+  cashOutline, 
+  documentTextOutline,
+  copyOutline,
+  locationOutline,
+  chevronForwardOutline,
+  arrowBackOutline
+} from 'ionicons/icons';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -10,37 +39,106 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./depot.page.scss'],
   standalone: true,
   imports: [
-    IonicModule,
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonBackButton,
+    IonButtons,
+    IonCard,
+    IonCardContent,
+    IonSegment,
+    IonSegmentButton,
+    IonLabel,
+    IonIcon,
+    IonList,
+    IonItem,
+    IonInput,
+    IonButton,
+    IonFooter,
+    IonText
   ]
 })
 export class DepotPage {
   amount: number = 0;
-  depositMethod: string = 'card';
+  depositMethod: 'card' | 'transfer' | 'cash' = 'card';
   cardNumber: string = '';
   expiryDate: string = '';
   cvv: string = '';
+  bankDetails = {
+    iban: 'FR76 3000 1007 1234 5678 9012 345',
+    bic: 'STBFRPPXXX'
+  };
+
+  constructor() {
+    addIcons({
+      cardOutline,
+      cashOutline,
+      documentTextOutline,
+      copyOutline,
+      locationOutline,
+      chevronForwardOutline,
+      arrowBackOutline
+    });
+  }
+
+  async copyBankDetails() {
+    const details = `IBAN: ${this.bankDetails.iban}\nBIC: ${this.bankDetails.bic}`;
+    await navigator.clipboard.writeText(details);
+    // You could add a toast notification here
+  }
 
   showBranches() {
-    // Logic to show branches
+    // Implement branch locator functionality
   }
 
   processDeposit() {
-    // Logic to process deposit
+    // Implement deposit logic
+    console.log('Processing deposit:', {
+      amount: this.amount,
+      method: this.depositMethod,
+      cardDetails: this.depositMethod === 'card' ? {
+        number: this.cardNumber,
+        expiry: this.expiryDate,
+        cvv: this.cvv
+      } : null
+    });
   }
 
   isValidDeposit(): boolean {
-    // Logic to validate deposit
-    return this.amount > 0 && this.cardNumber.length === 16 && this.cvv.length === 3;
+    if (this.amount <= 0) return false;
+    
+    if (this.depositMethod === 'card') {
+      return Boolean(
+        this.cardNumber?.length === 16 &&
+        this.expiryDate?.length === 5 &&
+        this.cvv?.length === 3
+      );
+    }
+    
+    return true;
   }
 
-  copyBankDetails() {
-    // Implementation for copying bank details
-    const bankDetails = 'Your bank details here';
-    navigator.clipboard.writeText(bankDetails);
+  formatCardNumber(event: any) {
+    let input = event.target.value.replace(/\D/g, '');
+    input = input.substring(0, 16);
+    const groups = input.match(/(\d{4})/g);
+    if (groups) {
+      this.cardNumber = groups.join(' ');
+    } else {
+      this.cardNumber = input;
+    }
   }
 
-  // ... rest of the component code
+  formatExpiryDate(event: any) {
+    let input = event.target.value.replace(/\D/g, '');
+    if (input.length >= 2) {
+      this.expiryDate = `${input.substring(0, 2)}/${input.substring(2, 4)}`;
+    } else {
+      this.expiryDate = input;
+    }
+  }
 }

@@ -1,78 +1,91 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>STB Bank</ion-title>
+    <ion-title>
+      <div class="header-title">
+        <img src="assets/logo-stb.png" alt="STB Bank" class="header-logo">
+        <span>STB Bank</span>
+      </div>
+    </ion-title>
     <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="notifications-outline" slot="icon-only"></ion-icon>
+        <ion-badge color="danger" *ngIf="notifications > 0">{{notifications}}</ion-badge>
+      </ion-button>
       <ion-button routerLink="/profil">
-        <ion-icon name="person-circle-outline"></ion-icon>
+        <ion-icon name="person-circle-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="balance-container">
-    <ion-card class="balance-card">
-      <ion-card-header>
-        <ion-card-subtitle>Solde disponible</ion-card-subtitle>
-        <ion-card-title class="balance-amount">€10,000.00</ion-card-title>
-      </ion-card-header>
+  <div class="main-content">
+    <!-- Balance Card -->
+    <ion-card class="balance-card ion-margin-bottom">
       <ion-card-content>
-        <div class="account-info">
-          <p>Compte N°: XXXX-XXXX-1234</p>
+        <div class="balance-header">
+          <ion-text color="medium">Solde disponible</ion-text>
+          <ion-button fill="clear" (click)="toggleBalance()" class="eye-button">
+            <ion-icon [name]="showBalance ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
+          </ion-button>
         </div>
+        <h1 class="balance-amount" [class.hidden]="!showBalance">
+          {{formatBalance(accountBalance)}}
+        </h1>
+        <h1 class="balance-amount" *ngIf="!showBalance">
+          •••• •••• ••••
+        </h1>
+        <p class="account-number">Compte N°: XXXX-XXXX-1234</p>
       </ion-card-content>
     </ion-card>
-  </div>
 
-  <div class="quick-actions">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="6">
-          <ion-card class="action-card" routerLink="/transfert">
-            <ion-icon name="send"></ion-icon>
-            <h3>Transfert</h3>
-          </ion-card>
-        </ion-col>
-        <ion-col size="6">
-          <ion-card class="action-card" routerLink="/depot">
-            <ion-icon name="add-circle"></ion-icon>
-            <h3>Dépôt</h3>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="6">
-          <ion-card class="action-card" routerLink="/retrait">
-            <ion-icon name="cash"></ion-icon>
-            <h3>Retrait</h3>
-          </ion-card>
-        </ion-col>
-        <ion-col size="6">
-          <ion-card class="action-card" routerLink="/historique">
-            <ion-icon name="time"></ion-icon>
-            <h3>Historique</h3>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
+    <!-- Quick Actions -->
+    <section class="quick-actions">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6" size-md="3" *ngFor="let action of quickActions">
+            <ion-card class="action-card" [routerLink]="action.route">
+              <ion-card-content>
+                <ion-icon [name]="action.icon" [color]="action.color"></ion-icon>
+                <h3>{{action.title}}</h3>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </section>
 
-  <div class="recent-transactions">
-    <h2>Transactions récentes</h2>
-    <ion-list>
-      <ion-item *ngFor="let transaction of recentTransactions">
-        <ion-icon [name]="transaction.icon" slot="start" [color]="transaction.color"></ion-icon>
-        <ion-label>
-          <h3>{{transaction.title}}</h3>
-          <p>{{transaction.date}}</p>
-        </ion-label>
-        <ion-note slot="end" [color]="transaction.type === 'credit' ? 'success' : 'danger'">
-          {{transaction.amount}}
-        </ion-note>
-      </ion-item>
-    </ion-list>
+    <!-- Recent Transactions -->
+    <section class="recent-transactions">
+      <div class="section-header">
+        <h2>Transactions récentes</h2>
+        <ion-button fill="clear" routerLink="/historique">
+          Voir tout
+          <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+        </ion-button>
+      </div>
+
+      <ion-list>
+        <ion-item *ngFor="let transaction of recentTransactions" class="transaction-item">
+          <ion-icon 
+            [name]="transaction.icon" 
+            [color]="transaction.color"
+            slot="start">
+          </ion-icon>
+          <ion-label>
+            <h3>{{transaction.title}}</h3>
+            <p>{{formatDate(transaction.date)}}</p>
+          </ion-label>
+          <ion-note 
+            slot="end" 
+            [color]="transaction.type === 'credit' ? 'success' : 'danger'">
+            {{transaction.amount}}
+          </ion-note>
+        </ion-item>
+      </ion-list>
+    </section>
   </div>
 </ion-content>

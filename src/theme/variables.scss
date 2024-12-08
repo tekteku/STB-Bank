@@ -1,3 +1,5 @@
+// Remove Ionic imports
+
 :root {
   // Main Brand Colors
   --stb-primary: #003B95;
@@ -47,17 +49,16 @@
   --transition-speed: 0.3s;
   --border-radius-lg: 15px;
   --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
 
-// Add Ionic specific variables
-:root {
-  /** primary **/
-  --ion-color-primary: var(--stb-primary);
-  --ion-color-primary-rgb: 0, 59, 149;
-  --ion-color-primary-contrast: #ffffff;
-  --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #003483;
-  --ion-color-primary-tint: #1a4fa0;
-  
-  // ...other Ionic color variables...
+  // Typography Variables
+  --font-size-small: 0.875rem;
+  --font-size-medium: 1rem;
+  --font-size-large: 1.25rem;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  // Spacing Variables
+  --space-unit: 8px;
 }

@@ -1,7 +1,32 @@
-<ion-content>
-<div class="ion-padding">
-  <!-- Informations bancaires -->
-  <ion-card>
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/accueil"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mon Profil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Profile Header -->
+  <div class="profile-header">
+    <div class="avatar-container">
+      <ion-avatar class="profile-avatar" (click)="takePicture()">
+        <img [src]="userProfile.photoUrl" alt="Profile Picture">
+      </ion-avatar>
+      <ion-button fill="clear" class="edit-avatar">
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-button>
+    </div>
+    <h2>{{userProfile.firstName}} {{userProfile.lastName}}</h2>
+    <ion-chip [color]="userProfile.status === 'active' ? 'success' : 'medium'">
+      <ion-icon name="checkmark-circle" *ngIf="userProfile.status === 'active'"></ion-icon>
+      <ion-label>{{userProfile.status === 'active' ? 'Actif' : 'Inactif'}}</ion-label>
+    </ion-chip>
+  </div>
+
+  <!-- Bank Information -->
+  <ion-card class="info-card">
     <ion-card-header>
       <ion-card-title>
         <ion-icon name="card-outline"></ion-icon>
@@ -15,7 +40,7 @@
             <p>Numéro de compte</p>
             <h3>{{userProfile.accountNumber}}</h3>
           </ion-label>
-          <ion-button fill="clear" slot="end" (click)="copyToClipboard(userProfile.accountNumber)">
+          <ion-button fill="clear" (click)="copyToClipboard(userProfile.accountNumber)">
             <ion-icon name="copy-outline"></ion-icon>
           </ion-button>
         </ion-item>
@@ -24,7 +49,16 @@
             <p>IBAN</p>
             <h3>{{userProfile.iban}}</h3>
           </ion-label>
-          <ion-button fill="clear" slot="end" (click)="copyToClipboard(userProfile.iban)">
+          <ion-button fill="clear" (click)="copyToClipboard(userProfile.iban)">
+            <ion-icon name="copy-outline"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            <p>BIC</p>
+            <h3>{{userProfile.bic}}</h3>
+          </ion-label>
+          <ion-button fill="clear" (click)="copyToClipboard(userProfile.bic)">
             <ion-icon name="copy-outline"></ion-icon>
           </ion-button>
         </ion-item>
@@ -32,41 +66,35 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Sécurité -->
-  <ion-card>
+  <!-- Security Settings -->
+  <ion-card class="info-card">
     <ion-card-header>
       <ion-card-title>
-        <ion-icon name="shield-outline"></ion-icon>
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
         Sécurité
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-list lines="none">
         <ion-item button (click)="changePassword()">
-          <ion-label>
-            <h3>Changer le mot de passe</h3>
-          </ion-label>
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          <ion-label>Changer le mot de passe</ion-label>
           <ion-icon name="chevron-forward" slot="end"></ion-icon>
         </ion-item>
-        <ion-item button (click)="manageTwoFactor()">
-          <ion-label>
-            <h3>Double authentification</h3>
-            <p>{{userProfile.twoFactorEnabled ? 'Activée' : 'Désactivée'}}</p>
-          </ion-label>
-          <ion-icon name="chevron-forward" slot="end"></ion-icon>
-        </ion-item>
-        <ion-item button (click)="deviceManagement()">
-          <ion-label>
-            <h3>Appareils connectés</h3>
-          </ion-label>
-          <ion-icon name="chevron-forward" slot="end"></ion-icon>
+        <ion-item>
+          <ion-icon name="shield-checkmark-outline" slot="start"></ion-icon>
+          <ion-label>Double authentification</ion-label>
+          <ion-toggle 
+            [(ngModel)]="userProfile.preferences.twoFactorEnabled"
+            (ionChange)="updatePreference('twoFactorEnabled', $event.detail.checked)">
+          </ion-toggle>
         </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
 
-  <!-- Préférences -->
-  <ion-card>
+  <!-- Preferences -->
+  <ion-card class="info-card">
     <ion-card-header>
       <ion-card-title>
         <ion-icon name="settings-outline"></ion-icon>
@@ -76,26 +104,30 @@
     <ion-card-content>
       <ion-list lines="none">
         <ion-item>
-          <ion-label>Notifications push</ion-label>
-          <ion-toggle [(ngModel)]="userProfile.pushNotifications"></ion-toggle>
+          <ion-icon name="notifications-outline" slot="start"></ion-icon>
+          <ion-label>Notifications</ion-label>
+          <ion-toggle 
+            [(ngModel)]="userProfile.preferences.notifications"
+            (ionChange)="updatePreference('notifications', $event.detail.checked)">
+          </ion-toggle>
         </ion-item>
         <ion-item>
-          <ion-label>Notifications email</ion-label>
-          <ion-toggle [(ngModel)]="userProfile.emailNotifications"></ion-toggle>
-        </ion-item>
-        <ion-item>
+          <ion-icon name="moon-outline" slot="start"></ion-icon>
           <ion-label>Mode sombre</ion-label>
-          <ion-toggle [(ngModel)]="darkMode" (ionChange)="toggleDarkMode()"></ion-toggle>
+          <ion-toggle 
+            [(ngModel)]="userProfile.preferences.darkMode"
+            (ionChange)="updatePreference('darkMode', $event.detail.checked)">
+          </ion-toggle>
         </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
-</div>
 </ion-content>
 
 <ion-footer class="ion-no-border">
   <ion-toolbar>
     <ion-button expand="block" color="danger" (click)="logout()">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
       Se déconnecter
     </ion-button>
   </ion-toolbar>

@@ -1,0 +1,76 @@
+<!-- Delete this file as it's no longer needed. -->
+<ion-content class="ion-padding">
+    <div class="login-container">
+      <ion-grid fixed>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="12" size-md="6" size-lg="4">
+            <div class="logo-container">
+              <img src="assets/logo-stb.png" alt="STB Bank Logo" class="logo">
+              <h1>STB Bank</h1>
+              <p>Bienvenue dans votre espace bancaire</p>
+            </div>
+  
+            <ion-card>
+              <ion-card-content>
+                <form (ngSubmit)="onLogin()">
+                  <ion-item class="ion-margin-bottom">
+                    <ion-icon name="mail-outline" slot="start"></ion-icon>
+                    <ion-label position="floating">Email</ion-label>
+                    <ion-input 
+                      type="email" 
+                      [(ngModel)]="credentials.email" 
+                      name="email" 
+                      required
+                      autocomplete="email">
+                    </ion-input>
+                  </ion-item>
+  
+                  <ion-item class="ion-margin-bottom">
+                    <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+                    <ion-label position="floating">Mot de passe</ion-label>
+                    <ion-input 
+                      [type]="showPassword ? 'text' : 'password'"
+                      [(ngModel)]="credentials.password" 
+                      name="password" 
+                      required>
+                    </ion-input>
+                    <ion-button 
+                      fill="clear" 
+                      slot="end" 
+                      (click)="togglePassword()"
+                      class="password-toggle">
+                      <ion-icon 
+                        [name]="showPassword ? 'eye-off-outline' : 'eye-outline'">
+                      </ion-icon>
+                    </ion-button>
+                  </ion-item>
+  
+                  <div class="forgot-password">
+                    <ion-text color="primary">
+                      <h6>Mot de passe oublié?</h6>
+                    </ion-text>
+                  </div>
+  
+                  <ion-button 
+                    expand="block" 
+                    class="ion-margin-top" 
+                    type="submit">
+                    Se connecter
+                  </ion-button>
+  
+                  <div class="register-prompt ion-text-center ion-margin-top">
+                    <ion-text color="medium">
+                      Pas encore client? 
+                      <ion-text color="primary">
+                        <strong>Ouvrir un compte</strong>
+                      </ion-text>
+                    </ion-text>
+                  </div>
+                </form>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-content>

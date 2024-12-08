@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 export interface SystemInfo {
   currentDateTime: string;
@@ -18,7 +19,7 @@ export class AuthService {
   private apiUrl = 'https://your-backend-api.com/auth';
   private tokenKey = 'auth_token';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     // Update datetime every second
     setInterval(() => {
       this.updateDateTime();
@@ -48,5 +49,21 @@ export class AuthService {
   isLoggedIn(): Observable<boolean> {
     const token = localStorage.getItem(this.tokenKey);
     return of(!!token);
+  }
+
+  login(credentials: { username: string; password: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
+      tap((response: any) => {
+        if (response.token) {
+          localStorage.setItem(this.tokenKey, response.token);
+          this.router.navigate(['/accueil']);
+        }
+      })
+    );
+  }
+
+  logout(): void {
+    localStorage.removeItem(this.tokenKey);
+    this.router.navigate(['/login']);
   }
 }

@@ -1,111 +1,279 @@
+:host {
+  --page-margin: 16px;
+  --card-border-radius: 16px;
+  --input-border-radius: 8px;
+  --transition-speed: 0.3s;
+}
+
+ion-header {
+  ion-toolbar {
+    --background: transparent;
+    
+    ion-title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+}
+
+ion-content {
+  --background: var(--ion-color-light);
+  background-image: 
+    radial-gradient(circle at 0% 0%, rgba(var(--ion-color-primary-rgb), 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 100% 100%, rgba(var(--ion-color-primary-rgb), 0.1) 0%, transparent 50%);
+}
+
 .transfer-container {
-    padding: 16px;
-  }
-  
-  ion-content {
-    --background: var(--bg-primary);
-    background-image: 
-      radial-gradient(circle at 0% 0%, rgba(142,45,226,0.1) 0%, transparent 50%),
-      radial-gradient(circle at 100% 100%, rgba(74,0,224,0.1) 0%, transparent 50%);
+  padding: var(--page-margin);
+}
+
+// Amount Card
+.amount-card {
+  background: var(--ion-color-primary);
+  border-radius: var(--card-border-radius);
+  margin-bottom: 24px;
+  box-shadow: 0 8px 20px rgba(var(--ion-color-primary-rgb), 0.2);
+  overflow: hidden;
+
+  ion-card-content {
+    padding: 24px;
   }
 
-  .amount-card {
-    background: var(--bg-accent);
-    backdrop-filter: blur(10px);
-    box-shadow: var(--card-shadow);
-    transition: transform 0.3s ease;
+  .amount-input-container {
+    text-align: center;
+    margin-bottom: 16px;
 
-    &:hover {
-      transform: var(--hover-transform);
+    .currency-symbol {
+      font-size: 24px;
+      color: rgba(255, 255, 255, 0.9);
+      margin-right: 8px;
     }
-    margin-bottom: 24px;
-  
+
     .amount-input {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 0;
-  
-      .currency {
-        font-size: 2.5rem;
-        color: var(--ion-color-dark);
-        margin-right: 8px;
-      }
-  
-      input {
-        font-size: 2.5rem;
-        border: none;
-        background: transparent;
-        text-align: center;
-        width: 200px;
-        color: var(--ion-color-dark);
-        outline: none;
-  
-        &::placeholder {
-          color: var(--ion-color-medium);
-        }
-      }
-    }
-  
-    .balance-text {
-      text-align: center;
-      color: var(--ion-color-medium);
-      margin: 0;
-      font-size: 0.9rem;
-    }
-  }
-  
-  .transfer-form {
-    ion-list {
       background: transparent;
-      padding: 0;
-      margin-bottom: 24px;
-  
-      ion-item {
-        --padding-start: 0;
-        --background: transparent;
-        --border-color: var(--ion-color-light);
-        margin-bottom: 16px;
-  
-        ion-label {
-          color: var(--ion-color-medium);
-          font-size: 0.9rem;
-        }
+      border: none;
+      color: white;
+      font-size: 36px;
+      font-weight: 700;
+      text-align: center;
+      width: 200px;
+      outline: none;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
       }
     }
   }
-  
+
   .quick-amounts {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     justify-content: center;
-    margin-top: 16px;
-  
-    ion-chip {
-      background: var(--secondary-gradient);
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+    .amount-chip {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 8px 16px;
       color: white;
-      transition: all 0.3s ease;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition-speed);
 
       &:hover {
-        transform: var(--hover-transform);
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
       }
-      font-weight: 500;
-  
-      &:active {
-        --background: var(--ion-color-primary);
-        --color: var(--ion-color-light);
+
+      &.selected {
+        background: white;
+        color: var(--ion-color-primary);
       }
     }
   }
-  
-  ion-footer {
-    padding: 16px;
-    
-    ion-button {
-      margin: 0;
-      height: 48px;
-      --border-radius: 24px;
-      font-weight: 600;
+}
+
+// Beneficiary Selection
+.beneficiary-section {
+  margin-bottom: 24px;
+
+  ion-card {
+    margin: 0;
+    border-radius: var(--card-border-radius);
+    background: var(--ion-color-light);
+    box-shadow: 0 4px 12px rgba(var(--ion-color-dark-rgb), 0.08);
+
+    ion-list {
+      padding: 0;
+      background: transparent;
+
+      ion-item {
+        --padding-start: 16px;
+        --padding-end: 16px;
+        --background: transparent;
+        --border-color: rgba(var(--ion-color-medium-rgb), 0.1);
+
+        &.item-has-value {
+          --highlight-background: var(--ion-color-primary);
+        }
+
+        .beneficiary-avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          margin-right: 12px;
+        }
+
+        ion-label {
+          h2 {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--ion-color-dark);
+            margin-bottom: 4px;
+          }
+
+          p {
+            font-size: 14px;
+            color: var(--ion-color-medium);
+            margin: 0;
+          }
+        }
+      }
     }
   }
+}
+
+// Transfer Details
+.transfer-details {
+  ion-card {
+    margin: 0;
+    border-radius: var(--card-border-radius);
+    background: var(--ion-color-light);
+    box-shadow: 0 4px 12px rgba(var(--ion-color-dark-rgb), 0.08);
+
+    ion-list {
+      padding: 0;
+      background: transparent;
+
+      ion-item {
+        --padding-start: 16px;
+        --padding-end: 16px;
+        --background: transparent;
+        --border-color: rgba(var(--ion-color-medium-rgb), 0.1);
+
+        &.textarea-item {
+          --min-height: 100px;
+          
+          ion-textarea {
+            --padding-top: 12px;
+            --padding-bottom: 12px;
+            margin-top: 8px;
+          }
+        }
+
+        ion-label {
+          color: var(--ion-color-medium);
+          font-size: 14px;
+        }
+
+        ion-input, ion-textarea {
+          --padding-start: 0;
+          font-size: 16px;
+          color: var(--ion-color-dark);
+        }
+      }
+    }
+  }
+}
+
+// Submit Button
+.submit-button {
+  margin: 24px 0;
+  --border-radius: 12px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  --box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
+
+  &:disabled {
+    --background: rgba(var(--ion-color-medium-rgb), 0.3);
+    --box-shadow: none;
+  }
+
+  ion-icon {
+    margin-left: 8px;
+  }
+}
+
+// Dark Mode Support
+@media (prefers-color-scheme: dark) {
+  ion-content {
+    --background: var(--ion-color-dark);
+  }
+
+  .beneficiary-section ion-card,
+  .transfer-details ion-card {
+    background: rgba(var(--ion-color-light-rgb), 0.05);
+  }
+
+  ion-item {
+    --background: transparent !important;
+
+    ion-label {
+      color: var(--ion-color-light) !important;
+    }
+
+    ion-input, ion-textarea {
+      --color: var(--ion-color-light) !important;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .amount-card {
+    .amount-input-container {
+      .amount-input {
+        font-size: 32px;
+        width: 160px;
+      }
+    }
+
+    .quick-amounts {
+      .amount-chip {
+        padding: 6px 12px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .submit-button {
+    margin: 16px 0;
+    height: 44px;
+    font-size: 14px;
+  }
+}
+
+// Animations
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-in {
+  animation: slideInUp 0.3s ease-out forwards;
+}

@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/accueil"></ion-back-button>
+      <ion-back-button defaultHref="/accueil" text=""></ion-back-button>
     </ion-buttons>
     <ion-title>Dépôt</ion-title>
   </ion-toolbar>
@@ -9,75 +9,111 @@
 
 <ion-content>
   <div class="deposit-container">
+    <!-- Amount Input Card -->
     <ion-card class="amount-card">
       <ion-card-content>
-        <div class="amount-input">
-          <span class="currency">€</span>
-          <input type="number" [(ngModel)]="amount" placeholder="0.00">
+        <div class="amount-wrapper">
+          <span class="currency-symbol">€</span>
+          <input 
+            type="number" 
+            [(ngModel)]="amount" 
+            placeholder="0.00"
+            class="amount-input"
+            min="0"
+            step="0.01">
         </div>
+        <p class="helper-text">Montant minimum: 10€</p>
       </ion-card-content>
     </ion-card>
 
-    <div class="deposit-options">
-      <h3>Méthode de dépôt</h3>
-      <ion-segment [(ngModel)]="depositMethod" mode="ios">
+    <!-- Deposit Method Selector -->
+    <div class="method-selector">
+      <h2>Méthode de dépôt</h2>
+      <ion-segment [(ngModel)]="depositMethod" mode="ios" class="custom-segment">
         <ion-segment-button value="card">
-          <ion-icon name="card"></ion-icon>
+          <ion-icon name="card-outline"></ion-icon>
           <ion-label>Carte</ion-label>
         </ion-segment-button>
         <ion-segment-button value="transfer">
-          <ion-icon name="swap-horizontal"></ion-icon>
+          <ion-icon name="swap-horizontal-outline"></ion-icon>
           <ion-label>Virement</ion-label>
         </ion-segment-button>
         <ion-segment-button value="cash">
-          <ion-icon name="cash"></ion-icon>
+          <ion-icon name="cash-outline"></ion-icon>
           <ion-label>Espèces</ion-label>
         </ion-segment-button>
       </ion-segment>
 
-      <div class="method-details" [ngSwitch]="depositMethod">
-        <div *ngSwitchCase="'card'" class="card-input">
-          <ion-list>
+      <!-- Method-specific content -->
+      <div class="method-content" [ngSwitch]="depositMethod">
+        <!-- Card Deposit Form -->
+        <div *ngSwitchCase="'card'" class="card-form animate-in">
+          <ion-list lines="full">
             <ion-item>
-              <ion-label position="stacked">Numéro de carte</ion-label>
-              <ion-input type="text" [(ngModel)]="cardNumber" placeholder="XXXX XXXX XXXX XXXX"></ion-input>
+              <ion-label position="floating">Numéro de carte</ion-label>
+              <ion-input
+                type="text"
+                [(ngModel)]="cardNumber"
+                (ionInput)="formatCardNumber($event)"
+                placeholder="1234 5678 9012 3456"
+                maxlength="19">
+              </ion-input>
             </ion-item>
-            <ion-row>
-              <ion-col>
-                <ion-item>
-                  <ion-label position="stacked">Date d'expiration</ion-label>
-                  <ion-input type="text" [(ngModel)]="expiryDate" placeholder="MM/YY"></ion-input>
-                </ion-item>
-              </ion-col>
-              <ion-col>
-                <ion-item>
-                  <ion-label position="stacked">CVV</ion-label>
-                  <ion-input type="number" [(ngModel)]="cvv" placeholder="123"></ion-input>
-                </ion-item>
-              </ion-col>
-            </ion-row>
+
+            <div class="card-details">
+              <ion-item class="expiry-date">
+                <ion-label position="floating">Date d'expiration</ion-label>
+                <ion-input
+                  type="text"
+                  [(ngModel)]="expiryDate"
+                  (ionInput)="formatExpiryDate($event)"
+                  placeholder="MM/YY"
+                  maxlength="5">
+                </ion-input>
+              </ion-item>
+
+              <ion-item class="cvv">
+                <ion-label position="floating">CVV</ion-label>
+                <ion-input
+                  type="number"
+                  [(ngModel)]="cvv"
+                  placeholder="123"
+                  maxlength="3">
+                </ion-input>
+              </ion-item>
+            </div>
           </ion-list>
         </div>
 
-        <div *ngSwitchCase="'transfer'" class="transfer-info">
-          <ion-card>
+        <!-- Bank Transfer Information -->
+        <div *ngSwitchCase="'transfer'" class="transfer-info animate-in">
+          <ion-card class="info-card">
             <ion-card-content>
-              <h4>Informations bancaires STB</h4>
-              <p><strong>IBAN:</strong> FR76 3000 1007 1234 5678 9012 345</p>
-              <p><strong>BIC:</strong> STBFRPPXXX</p>
-              <ion-button fill="clear" (click)="copyBankDetails()">
-                <ion-icon name="copy-outline" slot="start"></ion-icon>
-                Copier les informations
-              </ion-button>
+              <div class="bank-details">
+                <h3>Coordonnées bancaires STB</h3>
+                <div class="detail-item">
+                  <span class="label">IBAN</span>
+                  <span class="value">{{bankDetails.iban}}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="label">BIC</span>
+                  <span class="value">{{bankDetails.bic}}</span>
+                </div>
+                <ion-button expand="block" fill="clear" (click)="copyBankDetails()">
+                  <ion-icon name="copy-outline" slot="start"></ion-icon>
+                  Copier les informations
+                </ion-button>
+              </div>
             </ion-card-content>
           </ion-card>
         </div>
 
-        <div *ngSwitchCase="'cash'" class="cash-info">
-          <ion-card>
+        <!-- Cash Deposit Information -->
+        <div *ngSwitchCase="'cash'" class="cash-info animate-in">
+          <ion-card class="info-card">
             <ion-card-content>
-              <h4>Dépôt en espèces</h4>
-              <p>Rendez-vous dans l'une de nos agences STB:</p>
+              <h3>Dépôt en espèces</h3>
+              <p>Rendez-vous dans l'une de nos agences STB pour effectuer votre dépôt.</p>
               <ion-button expand="block" (click)="showBranches()">
                 <ion-icon name="location-outline" slot="start"></ion-icon>
                 Trouver une agence
@@ -92,7 +128,11 @@
 
 <ion-footer class="ion-no-border" *ngIf="depositMethod === 'card'">
   <ion-toolbar>
-    <ion-button expand="block" (click)="processDeposit()" [disabled]="!isValidDeposit()">
+    <ion-button 
+      expand="block" 
+      (click)="processDeposit()" 
+      [disabled]="!isValidDeposit()"
+      class="deposit-button">
       Effectuer le dépôt
     </ion-button>
   </ion-toolbar>
